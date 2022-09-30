@@ -1,17 +1,41 @@
 #!/usr/bin/python3
-""" Function that compress a folder """
+"""Creates and distributes an archive to servers"""
 from datetime import datetime
 from fabric.api import *
-import shlex
 import os
+import shlex
 
 
 env.hosts = ['18.208.159.63', '18.232.56.171']
 env.user = "ubuntu"
 
 
+def deploy():
+    """creates and distributes archive"""
+    try:
+        archive_path = do_pack()
+    except Exception:
+        return False
+
+    return do_deploy(archive_path)
+
+
+def do_pack():
+    """generates tgz archive"""
+    try:
+        if not os.path.exists("versions"):
+            local('mkdir versions')
+        t = datetime.now()
+        f = "%Y%m%d%H%M%S"
+        archive_path = 'versions/web_static_{}.tgz'.format(t.strftime(f))
+        local('tar -cvzf {} web_static'.format(archive_path))
+        return archive_path
+    except Exception:
+        return None
+
+
 def do_deploy(archive_path):
-    """deploys the archive to both web servers"""
+    """deploys archive to servers"""
     if not os.path.exists(archive_path):
         return False
     try:
