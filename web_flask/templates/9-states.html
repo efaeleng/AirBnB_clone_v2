@@ -1,0 +1,25 @@
+    <BODY>
+    {% if state is mapping %}
+        <H1>States</H1>
+        <UL>
+        {% for s in state.values()|sort(attribute="name") %}
+            <LI>{{ s   {% else %}
+        <H1>Not found!</H1>
+    {% endif %}
+    </BODY>
+
+<HTML lang="en">
+    <HEAD>
+        <TITLE>HBNB</TITLE>
+    </HEAD>
+    <BODY>
+    {% if state is mapping %}
+        <H1>States</H1>
+        <UL>
+        {% for s in state.values()|sort(attribute="name") %}
+            <LI>{{ s.id }}: <B>{{ s.name }}</B></LI>
+        {% endfor %}
+        </UL>
+    {% elif state is defined %}
+-- INSERT --                                                                             11,21         29%
+
